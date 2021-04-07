@@ -3,19 +3,19 @@ RSpec.describe Deck do
 
   context 'Cards' do
     it 'has cards' do
-      expect(deck).response_to?(:cards)
+      expect(deck).respond_to?(:cards)
     end
 
     it 'has discarded cards' do
-      expect(deck).respinse_to?(:discarded_cards)
+      expect(deck).respond_to?(:discarded_cards)
     end
 
     it 'has dealed cards' do
-      expect(deck).response_to?(:dealed_cards)
+      expect(deck).respond_to?(:dealed_cards)
     end
 
     it 'can shuffle cards' do
-      expect(deck).response_to?(:shuffle)
+      expect(deck).respond_to?(:shuffle)
     end
 
     it 'can generate 52 cards' do
