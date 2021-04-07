@@ -3,8 +3,8 @@ Dir['./*.rb'].each { |file| require file }
 RSpec.describe BlackJackGame do
   let(:player) { Player.new(name: 'Bill', balance: 100) }
   let(:dealer) { Dealer.new(balance: 100) }
-  let(:deck) { Deck.new(game: blackjeck) }
-  let(:blackjeck) { BlackJackGame.new(player, dealer, deck) }
+  let(:deck) { Deck.new }
+  let(:blackjeck) { BlackJackGame.new(dealer, deck, player) }
 
   context 'BlackJack Game' do
     it 'can start game' do
@@ -16,12 +16,12 @@ RSpec.describe BlackJackGame do
     end
 
     it 'Passes two cards to user from deck' do
-      player.get_cards(deck.widraw_cards(2))
+      player.get_cards(deck.withdraw_cards(2))
       expect(player.cards.length).to eq(2)
     end
 
     it 'Passes two cards to dealer from deck' do
-      player.get_cards(deck.widraw_cards(2))
+      player.get_cards(deck.withdraw_cards(2))
       expect(player.cards.length).to eq(2)
     end
   end

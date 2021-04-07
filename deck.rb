@@ -22,7 +22,15 @@ class Deck
     new_cards
   end
 
+  def withdraw_cards(number_of_cards)
+    @cards.pop(number_of_cards)
+  end
+
   def generate_cards
-    build_cards.each { |c| @cards << Card.new(c) }
+    build_cards.each { |c| @cards << Card.new(c) } if cards.empty?
+  end
+
+  def shuffle!
+    @cards = @cards.shuffle
   end
 end

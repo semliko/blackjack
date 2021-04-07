@@ -1,3 +1,5 @@
+require 'pry'
+
 RSpec.describe Deck do
   let(:deck) { Deck.new }
 
@@ -29,7 +31,7 @@ RSpec.describe Deck do
 
     it 'shuffles cards to ramdomize them' do
       current_cards_order = deck.cards
-      deck.suffle!
+      deck.shuffle!
       expect(deck.cards).not_to eq(current_cards_order)
     end
 

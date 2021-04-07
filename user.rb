@@ -1,7 +1,12 @@
 class User
+  attr_accessor :name, :cards
+
   def initialize(name)
     @name = name
+    @cards = []
   end
 
-  attr_reader :name
+  def get_cards(cards)
+    cards.each { |c| @cards << c }
+  end
 end
