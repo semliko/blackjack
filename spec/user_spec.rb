@@ -1,11 +1,11 @@
 require './user'
 
 RSpec.describe User do
-  let(:user) { User.new }
+  let(:user) { User.new(name: 'Bill', balance: 100) }
 
-  # it 'has a name' do
-  #  expect(user).response_to?(:name)
-  # end
+  it 'has a name' do
+    expect(user).respond_to?(:name)
+  end
 
   it 'has cards' do
     expect(user).respond_to?(:cards)
@@ -37,12 +37,12 @@ RSpec.describe User do
 
   it 'can add to balance' do
     user.add_balance(100)
-    expect(user.balance).to eq 100
+    expect(user.balance).to eq 200
   end
 
   it 'can deduct from balance' do
-    user.add_balane(100)
+    user.add_balance(100)
     user.remove_balance(10)
-    expect(user.balance).to eq 90
+    expect(user.balance).to eq 190
   end
 end

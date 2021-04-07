@@ -1,7 +1,7 @@
 RSpec.describe Player do
-  let(:player) { Player.new }
+  let(:player) { Player.new(name: 'Bill', balance: 100) }
 
   it 'has a name' do
-    expect(player).response_to?(:name)
+    expect(player).respond_to?(:name)
   end
 end
