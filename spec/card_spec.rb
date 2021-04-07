@@ -1,5 +1,5 @@
 RSpec.describe Card do
-  let(:card) { Card.new }
+  let(:card) { Card.new(suit: 'suit', rank: 'rank', value: 'value', lable: 'lable') }
   it 'has suit' do
     expect(card).respond_to?(:suit)
   end
@@ -12,6 +12,6 @@ RSpec.describe Card do
   end
 
   it 'has a lable' do
-    expect(card).respoond_to?(:lable)
+    expect(card).respond_to?(:lable)
   end
 end
