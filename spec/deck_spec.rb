@@ -37,22 +37,24 @@ RSpec.describe Deck do
 
     it 'can deal cards' do
       deck.deal_cards(2)
-      expect(deck.daled_cards).to eq(2)
+      expect(deck.dealed_cards.length).to eq(2)
     end
 
     it 'can widraw dealed cards from deck' do
       deck.deal_cards(2)
-      expect(deck.cards).to eq(50)
+      expect(deck.cards.length).to eq(50)
     end
 
     it 'can move cards to discard pile' do
-      deck.discard_cards(cards)
-      expect(deck.discarded_cards).to eq(cards.length)
+      discared_cards = deck.deal_cards(4)
+      deck.discard_cards(discared_cards)
+      expect(deck.discarded_cards).to include(discared_cards)
     end
 
     it 'does not deal discarded cards' do
-      deck.discard_cards(cards)
-      expect(deck.cards).not_to include(cards)
+      discared_cards = deck.deal_cards(5)
+      deck.discard_cards(discared_cards)
+      expect(deck.cards).not_to include(discared_cards)
     end
   end
 end

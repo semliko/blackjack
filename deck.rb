@@ -1,11 +1,13 @@
 class Deck
-  attr_accessor :cards
+  attr_accessor :cards, :dealed_cards, :discarded_cards
 
   SUITS = %w[<3 + ^ <>]
   RANKS = %w[A two three four five six seven eight nine ten J Q K]
 
   def initialize
+    @dealed_cards = []
     @cards = []
+    @discarded_cards = []
     generate_cards
   end
 
@@ -22,8 +24,8 @@ class Deck
     new_cards
   end
 
-  def withdraw_cards(number_of_cards)
-    @cards.pop(number_of_cards)
+  def deal_cards(number_of_cards)
+    @dealed_cards += @cards.pop(number_of_cards)
   end
 
   def generate_cards
@@ -32,5 +34,10 @@ class Deck
 
   def shuffle!
     @cards = @cards.shuffle
+  end
+
+  def discard_cards(*cards_to_discar)
+    @cards -= cards_to_discar
+    cards_to_discar.each { |c| @discarded_cards << c }
   end
 end

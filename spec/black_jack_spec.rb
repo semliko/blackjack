@@ -16,12 +16,12 @@ RSpec.describe BlackJackGame do
     end
 
     it 'Passes two cards to user from deck' do
-      player.get_cards(deck.withdraw_cards(2))
+      player.get_cards(deck.deal_cards(2))
       expect(player.cards.length).to eq(2)
     end
 
     it 'Passes two cards to dealer from deck' do
-      player.get_cards(deck.withdraw_cards(2))
+      player.get_cards(deck.deal_cards(2))
       expect(player.cards.length).to eq(2)
     end
   end
