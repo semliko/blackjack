@@ -4,15 +4,15 @@ RSpec.describe BlackJackGame do
   let(:player) { Player.new(name: 'Bill', balance: 100) }
   let(:dealer) { Dealer.new(balance: 100) }
   let(:deck) { Deck.new(game: blackjeck) }
-  let(:blackjeck) { BlackJackGame.new(player, deler, deck) }
+  let(:blackjeck) { BlackJackGame.new(player, dealer, deck) }
 
   context 'BlackJack Game' do
     it 'can start game' do
-      expect(:blackjeck).response_to?(:start_game)
+      expect(:blackjeck).respond_to?(:start_game)
     end
 
     it 'can end game' do
-      expect(:blackjeck).response_to?(:end_game)
+      expect(:blackjeck).respond_to?(:end_game)
     end
 
     it 'Passes two cards to user from deck' do
