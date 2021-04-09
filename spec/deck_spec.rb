@@ -47,13 +47,13 @@ RSpec.describe Deck do
 
     it 'can move cards to discard pile' do
       discared_cards = deck.deal_cards(4)
-      deck.discard_cards(discared_cards)
-      expect(deck.discarded_cards).to include(discared_cards)
+      deck.discard_cards
+      expect([deck.discarded_cards]).to include(discared_cards)
     end
 
     it 'does not deal discarded cards' do
       discared_cards = deck.deal_cards(5)
-      deck.discard_cards(discared_cards)
+      deck.discard_cards
       expect(deck.cards).not_to include(discared_cards)
     end
   end

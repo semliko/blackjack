@@ -1,10 +1,10 @@
 class User
   attr_accessor :name, :cards, :balance
 
-  def initialize(args)
+  def initialize(args = {})
     @name = args[:name]
     @cards = []
-    @balance = args[:balance]
+    @balance = args[:balance] || 0
   end
 
   def get_cards(cards)
@@ -16,6 +16,12 @@ class User
   end
 
   def remove_balance(amount)
+    raise 'Emount is shoter then balance' if balance < amount
+
     @balance -= amount
+  end
+
+  def cards_value
+    cards.map(&:value).inject(:+)
   end
 end

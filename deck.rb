@@ -1,3 +1,4 @@
+require 'pry'
 class Deck
   attr_accessor :cards, :dealed_cards, :discarded_cards
 
@@ -25,7 +26,10 @@ class Deck
   end
 
   def deal_cards(number_of_cards)
-    @dealed_cards += @cards.pop(number_of_cards)
+    shuffle!
+    withraw_cards = @cards.pop(number_of_cards)
+    @dealed_cards += withraw_cards
+    withraw_cards
   end
 
   def generate_cards
@@ -36,8 +40,8 @@ class Deck
     @cards = @cards.shuffle
   end
 
-  def discard_cards(*cards_to_discar)
-    @cards -= cards_to_discar
-    cards_to_discar.each { |c| @discarded_cards << c }
+  def discard_cards
+    @dealed_cards.each { |c| @discarded_cards << c }
+    @dealed_cards = []
   end
 end

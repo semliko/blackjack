@@ -1,18 +1,37 @@
 Dir['./*.rb'].each { |file| require file }
 
 RSpec.describe BlackJackGame do
-  let(:player) { Player.new(name: 'Bill', balance: 100) }
-  let(:dealer) { Dealer.new(balance: 100) }
-  let(:deck) { Deck.new }
-  let(:blackjeck) { BlackJackGame.new(dealer, deck, player) }
-
   context 'BlackJack Game' do
+    let(:blackjeck) { BlackJackGame.new('Bill') }
+    let(:player) { blackjeck.player }
+    let(:dealer) { blackjeck.dealer }
+    let(:deck) { blackjeck.deck }
+    let(:bank) { blackjeck.bank }
+
+    it 'end game if player has not money to bet' do
+      expect do
+        blackjeck.place_bet
+      end.to output("Player #{player.name} has not enough money to place a bet\nGame over\n").to_stdout
+      expect(blackjeck.keep_playing).to be_falsey
+    end
+
     it 'can start game' do
-      expect(:blackjeck).respond_to?(:start_game)
+      blackjeck.start_game
+      expect(player.cards.count).to eq 2
+      expect(dealer.cards.count).to eq 2
+    end
+
+    it 'can place a bet' do
+      blackjeck.place_bet
+      expect(bank).to eq 20
     end
 
     it 'can end game' do
       expect(:blackjeck).respond_to?(:end_game)
+    end
+
+    it 'can bank money' do
+      expect(:blakjeck).respond_to?(:bank_bet_money)
     end
 
     it 'Passes two cards to user from deck' do

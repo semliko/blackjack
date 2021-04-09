@@ -45,4 +45,9 @@ RSpec.describe User do
     user.remove_balance(10)
     expect(user.balance).to eq 190
   end
+
+  it 'rises an error on negative balance deduction' do
+    user.balance = 0
+    expect { user.remove_balance(10) }.to raise_error(RuntimeError, 'Emount is shoter then balance')
+  end
 end
