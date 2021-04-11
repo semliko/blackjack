@@ -1,5 +1,3 @@
-require './user'
-
 RSpec.describe User do
   let(:user) { User.new(name: 'Bill', balance: 100) }
 
@@ -49,5 +47,13 @@ RSpec.describe User do
   it 'rises an error on negative balance deduction' do
     user.balance = 0
     expect { user.remove_balance(10) }.to raise_error(RuntimeError, 'Emount is shoter then balance')
+  end
+
+  it 'can show cards' do
+    deck = Deck.new
+    cards = deck.deal_cards(2)
+    user.get_cards(cards)
+    expect(user.show_cards.length).to eq 2
+    expect(user.show_cards).to eq(cards.map(&:label))
   end
 end

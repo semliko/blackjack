@@ -18,7 +18,7 @@ class Deck
     SUITS.each do |suit|
       RANKS.each_with_index do |rank, index|
         card_value = values[index]
-        new_card = { suit: suit, rank: rank, value: card_value, lable: (rank + suit) }
+        new_card = { suit: suit, rank: rank, value: card_value, label: (rank + suit) }
         new_cards << new_card
       end
     end
@@ -26,6 +26,7 @@ class Deck
   end
 
   def deal_cards(number_of_cards)
+    generate_cards if @cards.empty?
     shuffle!
     withraw_cards = @cards.pop(number_of_cards)
     @dealed_cards += withraw_cards

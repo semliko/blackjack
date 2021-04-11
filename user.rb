@@ -24,4 +24,12 @@ class User
   def cards_value
     cards.map(&:value).inject(:+)
   end
+
+  def show_cards
+    cards.map(&:label)
+  end
+
+  def discard_cards
+    @cards = []
+  end
 end

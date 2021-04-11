@@ -5,22 +5,17 @@ Dir['./*.rb'].each do |file|
 end
 
 puts 'Enter Player name'
+player_name = gets.chomp
+game = BlackJackGame.new(player_name)
+game.start_game
 
-# player_name = gets.chomp
-#
-# player = Player.new(name: player_name, balance: 100)
-#
-# puts "Hello #{player.name}"
-#
-# dealer = Dealer.new({})
-#
-# deck = Deck.new
+while game.keep_playing
+  game.print_player_cards
+  puts '[1] To pass press 1'
+  puts '[2] To get one more card press 2'
+  puts '[3] To open cards press 3'
+  puts '[0] To exit game press 0'
 
-game = BlackJackGame.new('Ruslan')
-# binding.pry
-
-# player.get_cards(deck.deal_cards(2))
-# plalyer_cards_total = player.cards.map { |c| c.value }.inject(:+)
-# puts plalyer_cards_total
-# dealer.get_cards(deck.deal_cards(2))
-# dealer_cards_total = dealer.cards.map { |c| c.value }.inject(:+)
+  user_input = gets.chomp.to_i
+  game.menu(user_input)
+end

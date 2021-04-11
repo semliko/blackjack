@@ -1,5 +1,3 @@
-require 'pry'
-
 RSpec.describe Deck do
   let(:deck) { Deck.new }
 

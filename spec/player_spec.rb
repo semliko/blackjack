@@ -1,3 +1,5 @@
+require 'spec_helper'
+
 RSpec.describe Player do
   let(:player) { Player.new(name: 'Bill', balance: 100) }
 

@@ -1,4 +1,4 @@
-Dir['./*.rb'].each { |file| require file }
+require 'spec_helper'
 
 RSpec.describe BlackJackGame do
   context 'BlackJack Game' do
@@ -42,6 +42,12 @@ RSpec.describe BlackJackGame do
     it 'Passes two cards to dealer from deck' do
       player.get_cards(deck.deal_cards(2))
       expect(player.cards.length).to eq(2)
+    end
+
+    it 'stops the round if both players have 3 or more cards' do
+      player.get_cards(deck.deal_cards(3))
+      dealer.get_cards(deck.deal_cards(4))
+      expect(blackjeck.round_finished?).to eq true
     end
   end
 end
