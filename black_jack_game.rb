@@ -76,6 +76,8 @@ class BlackJackGame
       @keep_playing = false
       puts 'Game over'
     end
+    # @keep_playing = false
+    # puts 'Game over'
   end
 
   def winners
