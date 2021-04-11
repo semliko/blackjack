@@ -1,4 +1,3 @@
-require 'pry'
 class BlackJackGame
   attr_reader :dealer, :deck, :player, :bank, :keep_playing, :players
 
@@ -65,8 +64,18 @@ class BlackJackGame
   end
 
   def end_game
-    @keep_playing = false
-    puts 'Game over'
+    puts 'Do you want to play another game?'
+    puts '[Y] type Y to play'
+    puts '[N] type N to finish'
+    user_input = gets.chomp
+
+    case user_input
+    when 'Y'
+      start_game
+    else
+      @keep_playing = false
+      puts 'Game over'
+    end
   end
 
   def winners
