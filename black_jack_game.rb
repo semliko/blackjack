@@ -17,24 +17,32 @@ class BlackJackGame
     start_new_round
   end
 
+  def play_game
+    round = Rourn, new(player, dealer, deck)
+    round.start
+  end
+
   def start_new_round
-    puts 'New Round'
-    2.times { deal_card_to_player }
-    2.times { deal_card_to_dealer }
-    place_bet
+    round = Rourn, new(player, dealer, deck)
+    round.start
+
+    #  puts 'New Round'
+    #  2.times { deal_card_to_player }
+    #  2.times { deal_card_to_dealer }
+    #  place_bet
   end
 
-  def deal_card(current_player)
-    current_player.get_cards(deck.deal_cards(1))
-  end
+  # def deal_card(current_player)
+  #  current_player.get_cards(deck.deal_cards(1))
+  # end
 
-  def deal_card_to_player
-    deal_card(player)
-  end
+  # def deal_card_to_player
+  #  deal_card(player)
+  # end
 
-  def deal_card_to_dealer
-    deal_card(dealer)
-  end
+  # def deal_card_to_dealer
+  #  deal_card(dealer)
+  # end
 
   def place_bet
     @players.each do |player|
@@ -55,13 +63,13 @@ class BlackJackGame
     @bank = 0
   end
 
-  def dealer_turn
-    deal_card_to_dealer if @dealer.cards_value < 17
-  end
+  # def dealer_turn
+  #  deal_card_to_dealer if @dealer.cards_value < 17
+  # end
 
-  def player_turn
-    deal_card_to_player
-  end
+  # def player_turn
+  #  deal_card_to_player
+  # end
 
   def end_game
     puts 'Do you want to play another game?'
@@ -76,22 +84,20 @@ class BlackJackGame
       @keep_playing = false
       puts 'Game over'
     end
-    # @keep_playing = false
-    # puts 'Game over'
   end
 
-  def winners
-    new_winners = @players.select { |p| p.cards_value <= 21 }.max_by(&:cards_value)
-    if (@dealer.cards_value == @player.cards_value) || !new_winners
-      @players
-    else
-      [new_winners]
-    end
-  end
+  # def winners
+  #  new_winners = @players.select { |p| p.cards_value <= 21 }.max_by(&:cards_value)
+  #  if (@dealer.cards_value == @player.cards_value) || !new_winners
+  #    @players
+  #  else
+  #    [new_winners]
+  #  end
+  # end
 
-  def losers
-    [@player, @dealer] - winners
-  end
+  # def losers
+  #  [@player, @dealer] - winners
+  # end
 
   def create_player(name)
     @player = Player.new(name: name)
@@ -106,12 +112,13 @@ class BlackJackGame
   end
 
   def round_finished?
-    players.all? { |p| p.cards.length >= 3 } || (dealer_is_full && player_is_full)
+    current_count.finished?
+    # players.all? { |p| p.cards.length >= 3 } || (dealer_is_full && player_is_full)
   end
 
-  def discard_players_cards
-    players.each(&:discard_cards)
-  end
+  # def discard_players_cards
+  #  players.each(&:discard_cards)
+  # end
 
   def menu(user_input)
     @user_input = user_input
@@ -133,13 +140,13 @@ class BlackJackGame
     end
   end
 
-  def dealer_is_full
-    dealer.cards_value >= 17
-  end
+  # def dealer_is_full
+  #   dealer.cards_value >= 17
+  # end
 
-  def player_is_full
-    player.cards.length >= 3
-  end
+  # def player_is_full
+  #   player.cards.length >= 3
+  # end
 
   def compleate_round
     bank_bet_money
