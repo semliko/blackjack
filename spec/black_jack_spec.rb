@@ -35,6 +35,14 @@ RSpec.describe BlackJackGame do
       expect(:blakjeck).respond_to?(:bank_bet_money)
     end
 
+    it 'has many game rounds' do
+      expect(:blakjeck).respond_to?(:rounds)
+    end
+
+    it 'has current round' do
+      expec(:blakjeck).respond_to?(:current_round)
+    end
+
     it 'Passes two cards to user from deck' do
       player.get_cards(deck.deal_cards(2))
       expect(player.cards.length).to eq(2)
