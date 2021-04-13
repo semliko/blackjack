@@ -1,12 +1,15 @@
+require_relative 'interface'
+
 class BlackJackGame
   attr_reader :dealer, :deck, :player, :bank, :keep_playing, :players, :rounds
 
-  def initialize
-    create_player(request_player_name)
+  DEFAULT_BALANCE = 100
+
+  def initialize(player_name = request_player_name)
+    create_player(player_name)
     create_dealer
     create_deck
     @bank = 0
-    @keep_playing = true
     @players = [@player, @dealer]
     @rounds = []
   end
@@ -17,25 +20,46 @@ class BlackJackGame
 
   def start_game
     @keep_playing = true
-    @player.add_balance(100)
-    @dealer.add_balance(100)
-    play_game while players_have_money
+    @player.add_balance(DEFAULT_BALANCE)
+    @dealer.add_balance(DEFAULT_BALANCE)
+    continue_game
+  end
+
+  def continue_game
+    play_game while players_have_money && keep_playing
+    end_game unless players_have_money
   end
 
   def play_game
-    round = Rourn, new(player, dealer, deck)
+    start_round
+    place_bet
+    play_round until current_round.round_finished?
+    current_round.finish_game ? end_game : finalize_round
+  end
+
+  def start_round
+    round = Round.new(player, dealer, deck)
     @rounds << round
     round.start
-    place_bet
-    play_round until round.round_finished?
-    end_game
   end
 
   def play_round
-    Interface.print_player_cards
-    Intface.print_game_menu
-    user_input = Intface.user_input
+    Interface.print_player_cards(player)
+    Interface.print_game_menu
+    user_input = Interface.user_input
     current_round.exec_user_choice(user_input)
+  end
+
+  def finalize_round
+    bank_bet_money
+    print_round_summary
+    discard_players_cards
+  end
+
+  def print_round_summary
+    Interface.print_winners(current_round.winners)
+    Interface.print_losers(current_round.losers)
+    Interface.print_balance(players)
   end
 
   def current_round
@@ -46,27 +70,15 @@ class BlackJackGame
     round = Rourn, new(player, dealer, deck)
     round.start
     place_bet
-    #  puts 'New Round'
-    #  2.times { deal_card_to_player }
-    #  2.times { deal_card_to_dealer }
-    #  place_bet
   end
 
   def players_have_money
     players.all? { |p| p.balance.positive? }
   end
 
-  # def deal_card(current_player)
-  #  current_player.get_cards(deck.deal_cards(1))
-  # end
-
-  # def deal_card_to_player
-  #  deal_card(player)
-  # end
-
-  # def deal_card_to_dealer
-  #  deal_card(dealer)
-  # end
+  def discard_players_cards
+    players.each(&:discard_cards)
+  end
 
   def place_bet
     @players.each do |player|
@@ -82,46 +94,22 @@ class BlackJackGame
   end
 
   def bank_bet_money
+    winners = current_round.winners
     won_amount = @bank / winners.length
     winners.each { |w| w.add_balance(won_amount) }
     @bank = 0
   end
 
-  # def dealer_turn
-  #  deal_card_to_dealer if @dealer.cards_value < 17
-  # end
-
-  # def player_turn
-  #  deal_card_to_player
-  # end
-
-  def end_game
-    puts 'Do you want to play another game?'
-    puts '[Y] type Y to play'
-    puts '[N] type N to finish'
-    user_input = gets.chomp
-
-    case user_input
+  def end_game(user_input = {})
+    user_choice = user_input[:user_input] || Interface.print_end_game_menu
+    case user_choice
     when 'Y'
       start_game
     else
       @keep_playing = false
-      puts 'Game over'
+      Interface.print_game_over
     end
   end
-
-  # def winners
-  #  new_winners = @players.select { |p| p.cards_value <= 21 }.max_by(&:cards_value)
-  #  if (@dealer.cards_value == @player.cards_value) || !new_winners
-  #    @players
-  #  else
-  #    [new_winners]
-  #  end
-  # end
-
-  # def losers
-  #  [@player, @dealer] - winners
-  # end
 
   def create_player(name)
     @player = Player.new(name: name)
@@ -137,80 +125,5 @@ class BlackJackGame
 
   def round_finished?
     current_rount.finished?
-    # players.all? { |p| p.cards.length >= 3 } || (dealer_is_full && player_is_full)
   end
-
-  # def discard_players_cards
-  #  players.each(&:discard_cards)
-  # end
-
-  def menu(user_input)
-    @user_input = user_input
-    menu_choices
-    compleate_round if round_finished?
-  end
-
-  # def menu_choices
-  #   case @user_input
-  #   when 1
-  #     dealer_turn
-  #   when 2
-  #     player_turn
-  #     dealer_turn
-  #   when 3
-  #     compleate_round
-  #   when 0
-  #     end_game
-  #   end
-  # end
-
-  # def dealer_is_full
-  #   dealer.cards_value >= 17
-  # end
-
-  # def player_is_full
-  #   player.cards.length >= 3
-  # end
-
-  def compleate_round
-    bank_bet_money
-    print_winners
-    print_losers
-    print_balance
-    discard_players_cards
-    start_new_round
-  end
-
-  #  def print_winners
-  #    puts '=========== Winner is:=============== '
-  #    winners.each do |w|
-  #      puts w.name
-  #      puts '====================='
-  #      puts 'with cards:'
-  #      puts w.show_cards
-  #      puts "with total of #{w.cards_value}"
-  #    end
-  #  end
-  #
-  #  def print_losers
-  #    puts '----------The loser is: ---------'
-  #    losers.each do |l|
-  #      puts l.name.to_s
-  #      puts 'With cards'
-  #      puts l.show_cards
-  #      puts "With total of  #{l.cards_value}"
-  #    end
-  #  end
-  #
-  #  def print_balance
-  #    puts '--------Current Balance is ------------'
-  #    players.each do |p|
-  #      puts "#{p.name} => #{p.balance}"
-  #    end
-  #  end
-  #
-  #  def print_player_cards
-  #    puts '__________Your cards are:____________'
-  #    puts player.show_cards
-  #  end
 end

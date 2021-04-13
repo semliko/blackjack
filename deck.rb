@@ -1,9 +1,8 @@
-require 'pry'
 class Deck
   attr_accessor :cards, :dealed_cards, :discarded_cards
 
   SUITS = %w[♠ ♥ ♣ ♦].freeze
-  RANKS = [2, 3, 4, 5, 6, 7, 8, 9, 10, 'J', 'Q', 'K', 'A'].freeze
+  RANKS = %w[2 3 4 5 6 7 8 9 10 J Q K A].freeze
 
   def initialize
     @dealed_cards = []

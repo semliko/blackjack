@@ -1,5 +1,5 @@
 class Round
-  attr_reader :player, :dealer, :players, :state, :winner, :deck
+  attr_reader :player, :dealer, :players, :winner, :deck, :show_cards, :finish_game
 
   def initialize(player, dealer, deck)
     @player = player
@@ -25,6 +25,14 @@ class Round
     current_player.get_cards(deck.deal_cards(1))
   end
 
+  def deal_card_to_player
+    deal_card(player)
+  end
+
+  def deal_card_to_dealer
+    deal_card(dealer)
+  end
+
   def exec_user_choice(user_input)
     case user_input
     when 1
@@ -39,8 +47,17 @@ class Round
     end
   end
 
+  def end_game
+    @show_cards = true
+    @finish_game = true
+  end
+
+  def compleate_round
+    @show_cards = true
+  end
+
   def winners
-    new_winners = @players.select { |p| p.cards_value <= 21 }.max_by(&:cards_value)
+    new_winners = @players.select { |p| p.cards_value.to_i <= 21 }.max_by(&:cards_value)
     if (@dealer.cards_value == @player.cards_value) || !new_winners
       @players
     else
@@ -53,11 +70,7 @@ class Round
   end
 
   def round_finished?
-    players.all? { |p| p.cards.length >= 3 } || (dealer_is_full && player_is_full)
-  end
-
-  def discard_players_cards
-    players.each(&:discard_cards)
+    players.all? { |p| p.cards.length >= 3 } || (dealer_is_full && player_is_full) || show_cards
   end
 
   def dealer_is_full
