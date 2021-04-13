@@ -11,7 +11,6 @@ class Round
   def start
     2.times { deal_card_to_player }
     2.times { deal_card_to_dealer }
-    place_bet
   end
 
   def player_turn
@@ -24,6 +23,20 @@ class Round
 
   def deal_card(current_player)
     current_player.get_cards(deck.deal_cards(1))
+  end
+
+  def exec_user_choice(user_input)
+    case user_input
+    when 1
+      dealer_turn
+    when 2
+      player_turn
+      dealer_turn
+    when 3
+      compleate_round
+    when 0
+      end_game
+    end
   end
 
   def winners
