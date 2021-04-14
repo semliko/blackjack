@@ -17,6 +17,10 @@ module Interface
     gets.chomp
   end
 
+  def print_short_balance_msg(name)
+    puts "Player #{name} has not enough money to place a bet"
+  end
+
   def print_end_game_menu
     puts 'Do you want to play another game?'
     puts '[Y] type Y to play'

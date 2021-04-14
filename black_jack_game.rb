@@ -85,7 +85,7 @@ class BlackJackGame
       player.remove_balance(10)
     rescue StandardError => e
       if e.message == 'Emount is shoter then balance'
-        puts "Player #{player.name} has not enough money to place a bet"
+        Interface.print_short_balance_msg(player.name)
         end_game
         break
       end
